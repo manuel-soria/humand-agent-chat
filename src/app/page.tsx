@@ -396,6 +396,10 @@ function ToolIcon({ name }: { name: string }) {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function ToolCard({ part }: { part: any }) {
   const [expanded, setExpanded] = useState(false);
+  const [saveState, setSaveState] = useState<'idle' | 'naming' | 'saving' | 'saved' | 'error'>('idle');
+  const [queryName, setQueryName] = useState('');
+  const [savedUrl, setSavedUrl] = useState('');
+  const [saveError, setSaveError] = useState('');
 
   const toolLabels: Record<string, string> = {
     executeSql: 'SQL Query',
@@ -439,6 +443,38 @@ function ToolCard({ part }: { part: any }) {
     isDone && part.output?.rowCount !== undefined
       ? `${part.output.rowCount} rows`
       : null;
+
+  // Can save: only executeSql with successful output
+  const canSave = isDone && part.toolName === 'executeSql' && part.output?.success && part.input?.sql;
+
+  const handleSave = async () => {
+    if (!queryName.trim()) return;
+    setSaveState('saving');
+    setSaveError('');
+    try {
+      const res = await fetch('/api/save-query', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: queryName.trim(),
+          sql: part.input.sql,
+          dataSourceId: part.input.dataSourceId || 1,
+          description: part.input.description || '',
+        }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setSaveState('saved');
+        setSavedUrl(data.url);
+      } else {
+        setSaveState('error');
+        setSaveError(data.error || 'Error al guardar');
+      }
+    } catch {
+      setSaveState('error');
+      setSaveError('Error de conexión');
+    }
+  };
 
   return (
     <div className={`tool-card ${isDone ? 'tool-done' : 'tool-running'}`}>
@@ -494,6 +530,93 @@ function ToolCard({ part }: { part: any }) {
                 {JSON.stringify(part.output, null, 2).substring(0, 3000)}
                 {JSON.stringify(part.output, null, 2).length > 3000 ? '\n... (truncated)' : ''}
               </pre>
+            </div>
+          )}
+
+          {/* Save to Redash */}
+          {canSave && saveState === 'idle' && (
+            <button
+              className="save-redash-btn"
+              onClick={e => {
+                e.stopPropagation();
+                setQueryName(part.input.description || '');
+                setSaveState('naming');
+              }}
+              type="button"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z" />
+                <polyline points="17 21 17 13 7 13 7 21" />
+                <polyline points="7 3 7 8 15 8" />
+              </svg>
+              Guardar en Redash
+            </button>
+          )}
+
+          {canSave && saveState === 'naming' && (
+            <div className="save-redash-form" onClick={e => e.stopPropagation()}>
+              <input
+                className="save-redash-input"
+                placeholder="Nombre de la query en Redash..."
+                value={queryName}
+                onChange={e => setQueryName(e.target.value)}
+                onKeyDown={e => {
+                  if (e.key === 'Enter') handleSave();
+                  if (e.key === 'Escape') setSaveState('idle');
+                }}
+                autoFocus
+              />
+              <div className="save-redash-actions">
+                <button
+                  className="save-redash-cancel"
+                  onClick={() => setSaveState('idle')}
+                  type="button"
+                >
+                  Cancelar
+                </button>
+                <button
+                  className="save-redash-confirm"
+                  onClick={handleSave}
+                  disabled={!queryName.trim()}
+                  type="button"
+                >
+                  Guardar
+                </button>
+              </div>
+            </div>
+          )}
+
+          {saveState === 'saving' && (
+            <div className="save-redash-status">
+              <span className="tool-spinner" />
+              <span>Guardando en Redash...</span>
+            </div>
+          )}
+
+          {saveState === 'saved' && (
+            <div className="save-redash-status save-redash-success">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="20 6 9 17 4 12" />
+              </svg>
+              <span>Guardado en Redash</span>
+              {savedUrl && (
+                <a href={savedUrl} target="_blank" rel="noopener noreferrer" className="save-redash-link">
+                  Abrir en Redash
+                </a>
+              )}
+            </div>
+          )}
+
+          {saveState === 'error' && (
+            <div className="save-redash-status save-redash-error">
+              <span>{saveError}</span>
+              <button
+                className="save-redash-cancel"
+                onClick={() => setSaveState('idle')}
+                type="button"
+              >
+                Reintentar
+              </button>
             </div>
           )}
         </div>

@@ -670,6 +670,136 @@ body {
   margin-right: 8px;
 }
 
+/* ── Save to Redash ── */
+.save-redash-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 10px 14px;
+  background: var(--bg-surface);
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.save-redash-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-glow);
+}
+
+.save-redash-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.save-redash-input {
+  width: 100%;
+  padding: 10px 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.save-redash-input:focus {
+  border-color: var(--accent);
+}
+
+.save-redash-input::placeholder {
+  color: var(--text-muted);
+}
+
+.save-redash-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.save-redash-cancel {
+  padding: 6px 14px;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text-secondary);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.save-redash-cancel:hover {
+  border-color: var(--text-muted);
+  color: var(--text-primary);
+}
+
+.save-redash-confirm {
+  padding: 6px 14px;
+  background: var(--accent);
+  border: none;
+  border-radius: 6px;
+  color: #0c0c0c;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.save-redash-confirm:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.save-redash-confirm:not(:disabled):hover {
+  background: var(--accent-dim);
+}
+
+.save-redash-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  background: var(--bg-surface);
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.save-redash-success {
+  color: var(--tool-done);
+  border: 1px solid rgba(74, 158, 92, 0.3);
+}
+
+.save-redash-error {
+  color: var(--danger);
+  border: 1px solid rgba(232, 93, 93, 0.3);
+  justify-content: space-between;
+}
+
+.save-redash-link {
+  margin-left: auto;
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: opacity 0.15s ease;
+}
+
+.save-redash-link:hover {
+  text-decoration: underline;
+}
+
 /* ── Markdown ── */
 .markdown-body h1,
 .markdown-body h2,
