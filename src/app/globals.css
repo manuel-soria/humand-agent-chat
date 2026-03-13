@@ -1,23 +1,23 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap');
 
 :root {
-  --bg: #0c0c0c;
-  --bg-elevated: #161616;
-  --bg-surface: #1c1c1c;
-  --border: #2a2a2a;
-  --border-subtle: #222;
-  --text-primary: #e8e8e8;
-  --text-secondary: #888;
-  --text-muted: #555;
-  --accent: #c4f042;
-  --accent-dim: #a8cc38;
-  --accent-glow: rgba(196, 240, 66, 0.08);
-  --user-bg: #1e1e1e;
-  --tool-bg: #141414;
-  --tool-border: #252525;
-  --tool-running: #c4f042;
-  --tool-done: #4a9e5c;
-  --danger: #e85d5d;
+  --bg: #f8f8f8;
+  --bg-elevated: #ffffff;
+  --bg-surface: #f0f0f0;
+  --border: #e0e0e0;
+  --border-subtle: #eaeaea;
+  --text-primary: #1a1a1a;
+  --text-secondary: #6b6b6b;
+  --text-muted: #a0a0a0;
+  --accent: #4a8c2a;
+  --accent-dim: #3d7623;
+  --accent-glow: rgba(74, 140, 42, 0.08);
+  --user-bg: #eef3e8;
+  --tool-bg: #fafafa;
+  --tool-border: #e5e5e5;
+  --tool-running: #4a8c2a;
+  --tool-done: #3a8a4c;
+  --danger: #d94444;
   --radius: 12px;
   --radius-sm: 8px;
 }
@@ -52,7 +52,7 @@ body {
   z-index: 50;
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  background: rgba(12, 12, 12, 0.8);
+  background: rgba(248, 248, 248, 0.85);
   border-bottom: 1px solid var(--border-subtle);
 }
 
@@ -77,7 +77,7 @@ body {
   justify-content: center;
   background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dim) 100%);
   border-radius: 10px;
-  color: #0c0c0c;
+  color: #ffffff;
 }
 
 .logo-text {
@@ -102,7 +102,7 @@ body {
   background: var(--accent-glow);
   padding: 6px 14px;
   border-radius: 20px;
-  border: 1px solid rgba(196, 240, 66, 0.15);
+  border: 1px solid rgba(74, 140, 42, 0.2);
 }
 
 .pulse-dot {
@@ -309,7 +309,7 @@ body {
 }
 
 .tool-running {
-  border-color: rgba(196, 240, 66, 0.2);
+  border-color: rgba(74, 140, 42, 0.25);
 }
 
 .tool-header {
@@ -482,7 +482,7 @@ body {
 
 .send-button {
   background: var(--accent);
-  color: #0c0c0c;
+  color: #ffffff;
 }
 
 .send-button:disabled {
@@ -542,7 +542,7 @@ body {
   background: var(--bg-elevated);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.1);
   z-index: 100;
   animation: dropIn 0.15s ease-out;
   overflow: hidden;
